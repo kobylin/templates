@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+      - ./postgres.conf:/etc/postgresql/postgresql.conf
+      - ./dumps:/dumps
+    ports:
+      - "5432:5432"
+
+  admin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: SuperSecret
+    volumes:
+      - ./admin-data:/var/lib/pgadmin
+    ports:
+      - "8080:80"
